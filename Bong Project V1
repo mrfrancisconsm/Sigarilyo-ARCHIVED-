@@ -141,7 +141,7 @@ RealGame = game;game = setmetatable({},{
 
 
 
-local p = game.Players.LocalPlayer
+local p = owner
 local char = p.Character
 local mouse = p:GetMouse()
 local larm = char["Left Arm"]
@@ -164,79 +164,79 @@ hum.WalkSpeed = 8
 ----------------------------------------------------
 ----------------------------------------------------
 Debounces = {
-CanPuff = true;
-CanJoke = true;
-Bong = true;
-Pipe = false;
-Blunt = false;
-NoIdl = false;
-on = false;
+	CanPuff = true;
+	CanJoke = true;
+	Bong = true;
+	Pipe = false;
+	Blunt = false;
+	NoIdl = false;
+	on = false;
 }
 
 ----------------------------------------------------
 
 function lerp(a, b, t) -- Linear interpolation
-        return a + (b - a)*t
+	return a + (b - a)*t
 end
- 
+
 function slerp(a, b, t) --Spherical interpolation
-        dot = a:Dot(b)
-        if dot > 0.99999 or dot < -0.99999 then
-                return t <= 0.5 and a or b
-        else
-                r = math.acos(dot)
-                return (a*math.sin((1 - t)*r) + b*math.sin(t*r)) / math.sin(r)
-        end
+	dot = a:Dot(b)
+	if dot > 0.99999 or dot < -0.99999 then
+		return t <= 0.5 and a or b
+	else
+		r = math.acos(dot)
+		return (a*math.sin((1 - t)*r) + b*math.sin(t*r)) / math.sin(r)
+	end
 end
- 
+
 function matrixInterpolate(a, b, t)
-        local ax, ay, az, a00, a01, a02, a10, a11, a12, a20, a21, a22 = a:components()
-        local bx, by, bz, b00, b01, b02, b10, b11, b12, b20, b21, b22 = b:components()
-        local v0 = lerp(Vector3.new(ax, ay, az), Vector3.new(bx , by , bz), t) -- Position
-        local v1 = slerp(Vector3.new(a00, a01, a02), Vector3.new(b00, b01, b02), t) -- Vector  right
-        local v2 = slerp(Vector3.new(a10, a11, a12), Vector3.new(b10, b11, b12), t) -- Vector  up
-        local v3 = slerp(Vector3.new(a20, a21, a22), Vector3.new(b20, b21, b22), t) -- Vector  back
-        local t = v1:Dot(v2)
-        if not (t < 0 or t == 0 or t > 0) then         -- Failsafe
-                return CFrame.new()
-        end
-        return CFrame.new(
-        v0.x, v0.y, v0.z,
-        v1.x, v1.y, v1.z,
-        v2.x, v2.y, v2.z,
-        v3.x, v3.y, v3.z)
+	local ax, ay, az, a00, a01, a02, a10, a11, a12, a20, a21, a22 = a:components()
+	local bx, by, bz, b00, b01, b02, b10, b11, b12, b20, b21, b22 = b:components()
+	local v0 = lerp(Vector3.new(ax, ay, az), Vector3.new(bx , by , bz), t) -- Position
+	local v1 = slerp(Vector3.new(a00, a01, a02), Vector3.new(b00, b01, b02), t) -- Vector  right
+	local v2 = slerp(Vector3.new(a10, a11, a12), Vector3.new(b10, b11, b12), t) -- Vector  up
+	local v3 = slerp(Vector3.new(a20, a21, a22), Vector3.new(b20, b21, b22), t) -- Vector  back
+	local t = v1:Dot(v2)
+	if not (t < 0 or t == 0 or t > 0) then         -- Failsafe
+		return CFrame.new()
+	end
+	return CFrame.new(
+		v0.x, v0.y, v0.z,
+		v1.x, v1.y, v1.z,
+		v2.x, v2.y, v2.z,
+		v3.x, v3.y, v3.z)
 end
 ----------------------------------------------------
 function genWeld(a,b)
-    local w = Instance.new("Weld",a)
-    w.Part0 = a
-    w.Part1 = b
-    return w
+	local w = Instance.new("Weld",a)
+	w.Part0 = a
+	w.Part1 = b
+	return w
 end
 function weld(a, b)
-    local weld = Instance.new("Weld")
-    weld.Name = "W"
-    weld.Part0 = a
-    weld.Part1 = b
-    weld.C0 = a.CFrame:inverse() * b.CFrame
-    weld.Parent = a
-    return weld;
+	local weld = Instance.new("Weld")
+	weld.Name = "W"
+	weld.Part0 = a
+	weld.Part1 = b
+	weld.C0 = a.CFrame:inverse() * b.CFrame
+	weld.Parent = a
+	return weld;
 end
 ----------------------------------------------------
 function Lerp(c1,c2,al)
-local com1 = {c1.X,c1.Y,c1.Z,c1:toEulerAnglesXYZ()}
-local com2 = {c2.X,c2.Y,c2.Z,c2:toEulerAnglesXYZ()}
-for i,v in pairs(com1) do 
-com1[i] = v+(com2[i]-v)*al
-end
-return CFrame.new(com1[1],com1[2],com1[3]) * CFrame.Angles(select(4,unpack(com1)))
+	local com1 = {c1.X,c1.Y,c1.Z,c1:toEulerAnglesXYZ()}
+	local com2 = {c2.X,c2.Y,c2.Z,c2:toEulerAnglesXYZ()}
+	for i,v in pairs(com1) do 
+		com1[i] = v+(com2[i]-v)*al
+	end
+	return CFrame.new(com1[1],com1[2],com1[3]) * CFrame.Angles(select(4,unpack(com1)))
 end
 ----------------------------------------------------
 newWeld = function(wp0, wp1, wc0x, wc0y, wc0z)
-local wld = Instance.new("Weld", wp1)
-wld.Part0 = wp0
-wld.Part1 = wp1
-wld.C0 = CFrame.new(wc0x, wc0y, wc0z)
+	local wld = Instance.new("Weld", wp1)
+	wld.Part0 = wp0
+	wld.Part1 = wp1
+	wld.C0 = CFrame.new(wc0x, wc0y, wc0z)
 end
 ----------------------------------------------------
 newWeld(torso, larm, -1.5, 0.5, 0)
@@ -274,6 +274,7 @@ weld.C1 = CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-50), math.rad(0), math.r
 s = Instance.new("Smoke", pa)
 s.Color = Color3.new(1,1,1)
 s.Opacity = 1
+s.Size = 0.1
 s.RiseVelocity = 4
 s.Enabled = false
 ----------------------------------------------------
@@ -832,451 +833,451 @@ weld5.C0 = CFrame.new(0, 0, 0)
 weld5.C1 = CFrame.new(.2, -.8, .3) * CFrame.Angles(math.rad(-150), math.rad(0), math.rad(0))
 ----------------------------------------------------
 function Burn()
-local bk=torso.Bong["Devil's Lettuce"].Mesh
-bk.VertexColor=Vector3.new(0,0,0)
-local pl=Instance.new("PointLight",bk.Parent)
-pl.Brightness=0 pl.Color=Color3.new(1,0,0)
-for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
-for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
-pl:Remove()
+	local bk=torso.Bong["Devil's Lettuce"].Mesh
+	bk.VertexColor=Vector3.new(0,0,0)
+	local pl=Instance.new("PointLight",bk.Parent)
+	pl.Brightness=0 pl.Color=Color3.new(1,0,0)
+	for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
+	for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
+	pl:Remove()
 end
 ----------------------------------------------------
 function Burn2()
-local bk=larm.Pipe.Ganja.Mesh
-bk.VertexColor=Vector3.new(0,0,0)
-local pl=Instance.new("PointLight",bk.Parent)
-pl.Brightness=0 pl.Color=Color3.new(1,0,0)
-for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
-for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
-pl:Remove()
+	local bk=larm.Pipe.Ganja.Mesh
+	bk.VertexColor=Vector3.new(0,0,0)
+	local pl=Instance.new("PointLight",bk.Parent)
+	pl.Brightness=0 pl.Color=Color3.new(1,0,0)
+	for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
+	for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
+	pl:Remove()
 end
 ----------------------------------------------------
 function Burn3()
-local brn=larm.Blunt.Joint1
-brn.BrickColor = BrickColor.new("Dusty rose")
-wait(.5)
-brn.BrickColor = BrickColor.new("Bright red")
-wait(.5)
-brn.BrickColor = BrickColor.new("Really red")
-wait(1)
-brn.BrickColor = BrickColor.new("Black")
-wait(.5)
-brn.BrickColor = BrickColor.new("Really black")
-wait(1)
-brn.BrickColor = BrickColor.new("White")
+	local brn=larm.Blunt.Joint1
+	brn.BrickColor = BrickColor.new("Dusty rose")
+	wait(.5)
+	brn.BrickColor = BrickColor.new("Bright red")
+	wait(.5)
+	brn.BrickColor = BrickColor.new("Really red")
+	wait(1)
+	brn.BrickColor = BrickColor.new("Black")
+	wait(.5)
+	brn.BrickColor = BrickColor.new("Really black")
+	wait(1)
+	brn.BrickColor = BrickColor.new("White")
 end
 ----------------------------------------------------
 function Match1()
-        for i = 1, 10 do wait()
-                for i,v in pairs(m4:GetChildren()) do
-                        if v:IsA("Part") then
-                                v.Transparency = v.Transparency - 0.1
-                        end
-                end
-        end
-        x1.Enabled = true
+	for i = 1, 10 do wait()
+		for i,v in pairs(m4:GetChildren()) do
+			if v:IsA("Part") then
+				v.Transparency = v.Transparency - 0.1
+			end
+		end
+	end
+	x1.Enabled = true
 end
 ----------------------------------------------------
 function Match2()
-        for i = 1, 10 do wait()
-                for i,v in pairs(m4:GetChildren()) do
-                        if v:IsA("Part") then
-                                v.Transparency = v.Transparency + 0.1
-                        end
-                end
-        end
-        x1.Enabled = false
+	for i = 1, 10 do wait()
+		for i,v in pairs(m4:GetChildren()) do
+			if v:IsA("Part") then
+				v.Transparency = v.Transparency + 0.1
+			end
+		end
+	end
+	x1.Enabled = false
 end
 ----------------------------------------------------
 print("snoop dawg motherfiker")--Dun change plox
 ----------------------------------------------------
 function Snoop()
-pits = {0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1}
+	----[[]]	pits = {0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1}
 
-if math.random(1,3) == 1 then
-cgh = Instance.new("Sound",hed)
-cgh.SoundId = "rbxassetid://186581757"
-cgh.Pitch = pits[math.random(1,#pits)]
-cgh.Volume = 1
-wait(.1)
-cgh:Play()
-end
+	--	if math.random(1,3) == 1 then
+	--		cgh = Instance.new("Sound",hed)
+	--		cgh.SoundId = "rbxassetid://186581757"
+	--		cgh.Pitch = pits[math.random(1,#pits)]
+	--		cgh.Volume = 1
+	--		wait(.1)
+	--		cgh:Play()
+	--	end
 
-frogSequence = {177231086,177235819,177231110,177231125,177235637,177231141,177231148,177231162,177231174,177231186}
-snoopSequence = {175425918,175425940,175425986,175426013,175426270,175426298,175426373,175426397,175426407,175426432,175426443,175426561,175426586,175426607,175426620,175426638,175426653,175426666,175426691,175426764,175426777,175426972,175426988,175426999,175427017,175427038,175427054,175427092,175427110,175427137,175427148,175427177}
+	--	frogSequence = {177231086,177235819,177231110,177231125,177235637,177231141,177231148,177231162,177231174,177231186}
+	--	snoopSequence = {175425918,175425940,175425986,175426013,175426270,175426298,175426373,175426397,175426407,175426432,175426443,175426561,175426586,175426607,175426620,175426638,175426653,175426666,175426691,175426764,175426777,175426972,175426988,175426999,175427017,175427038,175427054,175427092,175427110,175427137,175427148,175427177}
 
-fatboysraidmcdonalds = {
-        SelectFromTable = function(tab)
-                if #tab == 0 then
-                        return nil
-                else
-                        return tab[math.random(1,#tab)]
-                end
-        end,
-        ["Clamp"] = function(n,a,b)
-                n = tonumber(n or 0) or 0
-                a = tonumber(a or -math.huge) or -math.huge
-                b = tonumber(b or math.huge) or math.huge
-                if a > b then
-                        a,b = b,a
-                end
-                return math.max(a,math.min(b,n))
-        end,
-        ["Slerp"] = function(val)
-                val = fatboysraidmcdonalds.Clamp(val,0,1)
-                local input = math.pi/2 + (val*math.pi);
-                local sine = math.sin(input);
-                local scale = -sine/2;
-                return 0.5 + scale;
-        end,
-        ["Bounce"] = function(val)
-                val = val%2
-                if val <= 1 then
-                        return val
-                else
-                        return 2 - val
-                end
-        end,
-        ["Camera"] = {
-                ["Smooth"] = function(t)
-                        local start = tick()
-                        local now = start
-                        local targ = start + t
-                        local Diff = now - start
-                        local cam = Workspace.CurrentCamera
-                        local orig = cam.FieldOfView
-                        local diff,distance,offset
-                        if orig >= 70 then
-                                distance = 50
-                                offset = orig - 70
-                                diff = offset/distance
-                        else
-                                distance = 120 - orig
-                                offset = 0
-                                diff = 0
-                        end
-                        local speed = 0.5 + (math.random()*1.5)
-                        while now <= targ do
-                                cam.FieldOfView = orig + (fatboysraidmcdonalds.Slerp(fatboysraidmcdonalds.Bounce(diff + (Diff*speed))) * distance)
-                                wait()
-                                now = tick()
-                                Diff = now - start
-                        end
-                        cam.FieldOfView = orig
-                        return Diff
-                end,
-                ["Headache"] = function(t)
-                        local now = tick()
-                        local targ = tick() + t
-                        local cam = Workspace.CurrentCamera
-                        local fixes = {
-                                ["FieldOfView"] = cam.FieldOfView,
-                                ["TiltUnits"] = 0,
-                        }
-                        while now <= targ do
-                                local fov = 60 + math.random()*60
-                                local pan = -8 + (math.random()*16)
-                                local tilt = -9 + (math.random()*18)
-                                local roll = (-math.pi/2) + (math.random()*(math.pi*4))
-                                fixes.TiltUnits = fixes.TiltUnits + tilt
-                                cam.FieldOfView = fov
-                                cam:TiltUnits(tilt)
-                                wait()
-                                now = tick()
-                        end
-                        cam.FieldOfView = fixes.FieldOfView
-                        cam:TiltUnits(-fixes.TiltUnits)
-                        return t + (now - targ)
-                end
-        },
-        ["Control"] = function(t,switch)
-                switch = switch == nil and true or switch
-                local phase = math.min((tonumber(t or 10) or 10),math.random() + (switch and 2 or 0))
-                local pick
-                if switch then
-                        pick = fatboysraidmcdonalds.Camera.Smooth
-                else
-                        pick = {}
-                        for i,v in pairs(fatboysraidmcdonalds.Camera) do
-                                if i ~= "Smooth" then
-                                        table.insert(pick,v)
-                                end
-                        end
-                        pick = fatboysraidmcdonalds.SelectFromTable(pick)
-                end
-                local offset = pick(phase)
-                t = t - offset
-                if t >= 1 then
-                        fatboysraidmcdonalds.Control(t,not switch)
-                elseif t > 0 then
-                        fatboysraidmcdonalds.Control(t,false)
-                end
-        end,
-        ["Snoop"] = function(t)
-                local snoopy = Instance.new("Part")
-                snoopy.Anchored = true
-                snoopy.Locked = true
-                snoopy.CanCollide = false
-                snoopy.FormFactor = "Custom"
-                snoopy.Transparency = 1
-                snoopy.Size = Vector3.new(2,2,1)
-                local lol = Instance.new("BillboardGui")
-                lol.Name = "anim"
-                lol.Adornee = lol.Parent
-                lol.AlwaysOnTop = false
-                lol.Size = UDim2.new(1.5,0,1.5,0)
-                lol.SizeOffset = Vector2.new(-0.5,-0.5)
-                lol.Parent = snoopy
-                local cam = Workspace.CurrentCamera
-                local function Pos(p)
-                        return p + cam.Focus.p
-                end
-                local function newSnoop(tiem)
-                        Spawn(function()
-                                local new = snoopy:Clone()
-                                local anim = new:WaitForChild("anim")
-                                animGui(anim,snoopSequence,0.05)
-                                local tack = tick()
-                                local start = tack
-                                local wow = tack*(((math.random()*2)-1)*57)
-                                local s,c,r = math.sin(wow)*math.random(200,225)*0.01,math.cos(wow)*math.random(175,200)*0.01,-1 + (math.random()*2)
-                                local dist = 10
-                                local xp,yp,zp = dist*-s,dist*-r,dist*-c
-                                local xe,ye,ze = dist*s,dist*r,dist*c
-                                local pos,targ = Vector3.new(xp,yp,zp),Vector3.new(xe,ye,ze)
-                                new.CFrame = Pos(CFrame.new(pos))
-                                new.Parent = cam
-                                tiem = tack + tiem
-                                while tack <= tiem do
-                                        local diff = fatboysraidmcdonalds.Clamp((tack-start)/(tiem-start),0,1)
-                                        new.CFrame = Pos(CFrame.new(pos + ((targ-pos)*diff)))
-                                        wait()
-                                        tack = tick()
-                                end
-                                new.CFrame = Pos(CFrame.new(targ))
-                                new:destroy()
-                        end)
-                end
-                local now = tick()
-                local targ = now + t
-                while now <= targ do
-                        local diff = targ - now
-                        newSnoop(math.min(diff,0.75 + math.random()*0.5))
-                        wait()
-                        now = tick()
-                end
-        end,
-        ["Illuminati"] = function(t,frame)
-        local decal = e
-                local audio = 168907893
-                local img = Instance.new("ImageLabel",frame)
-                img.BackgroundTransparency = 1
-                img.BorderSizePixel = 0
-                img.ImageTransparency = 0.5
-                img.ZIndex = 10
-                img.Size = UDim2.new(0.1,0,0.1,0)
-                img.Position = UDim2.new(0.45,0,0.45,0)
-                img.Image = "http://www.roblox.com/asset/?id="..tostring(decal)
-                local sound = Instance.new("Sound",img)                
-                sound.Volume = 0.75
-                sound.Looped = true
-                sound.PlayOnRemove = false
-                sound.SoundId = "http://www.roblox.com/asset/?id="..tostring(audio)
-                sound:Play()
-                img:TweenSizeAndPosition(UDim2.new(1,0,1,0),UDim2.new(0,0,0,0),"Out","Linear",t+1.5)
-                img.Changed:connect(function(p)
-                        if p ~= "ImageTransparency" then
-                                local x = img.Size.X.Scale
-                                img.ImageTransparency = 1 - x
-                                sound.Volume = x
-                        end
-                end)
-        end
-}
+	--	fatboysraidmcdonalds = {
+	--		SelectFromTable = function(tab)
+	--			if #tab == 0 then
+	--				return nil
+	--			else
+	--				return tab[math.random(1,#tab)]
+	--			end
+	--		end,
+	--		["Clamp"] = function(n,a,b)
+	--			n = tonumber(n or 0) or 0
+	--			a = tonumber(a or -math.huge) or -math.huge
+	--			b = tonumber(b or math.huge) or math.huge
+	--			if a > b then
+	--				a,b = b,a
+	--			end
+	--			return math.max(a,math.min(b,n))
+	--		end,
+	--		["Slerp"] = function(val)
+	--			val = fatboysraidmcdonalds.Clamp(val,0,1)
+	--			local input = math.pi/2 + (val*math.pi);
+	--			local sine = math.sin(input);
+	--			local scale = -sine/2;
+	--			return 0.5 + scale;
+	--		end,
+	--		["Bounce"] = function(val)
+	--			val = val%2
+	--			if val <= 1 then
+	--				return val
+	--			else
+	--				return 2 - val
+	--			end
+	--		end,
+	--		["Camera"] = {
+	--			["Smooth"] = function(t)
+	--				local start = tick()
+	--				local now = start
+	--				local targ = start + t
+	--				local Diff = now - start
+	--				local cam = Workspace.CurrentCamera
+	--				local orig = cam.FieldOfView
+	--				local diff,distance,offset
+	--				if orig >= 70 then
+	--					distance = 50
+	--					offset = orig - 70
+	--					diff = offset/distance
+	--				else
+	--					distance = 120 - orig
+	--					offset = 0
+	--					diff = 0
+	--				end
+	--				local speed = 0.5 + (math.random()*1.5)
+	--				while now <= targ do
+	--					cam.FieldOfView = orig + (fatboysraidmcdonalds.Slerp(fatboysraidmcdonalds.Bounce(diff + (Diff*speed))) * distance)
+	--					wait()
+	--					now = tick()
+	--					Diff = now - start
+	--				end
+	--				cam.FieldOfView = orig
+	--				return Diff
+	--			end,
+	--			["Headache"] = function(t)
+	--				local now = tick()
+	--				local targ = tick() + t
+	--				local cam = Workspace.CurrentCamera
+	--				local fixes = {
+	--					["FieldOfView"] = cam.FieldOfView,
+	--					["TiltUnits"] = 0,
+	--				}
+	--				while now <= targ do
+	--					local fov = 60 + math.random()*60
+	--					local pan = -8 + (math.random()*16)
+	--					local tilt = -9 + (math.random()*18)
+	--					local roll = (-math.pi/2) + (math.random()*(math.pi*4))
+	--					fixes.TiltUnits = fixes.TiltUnits + tilt
+	--					cam.FieldOfView = fov
+	--					cam:TiltUnits(tilt)
+	--					wait()
+	--					now = tick()
+	--				end
+	--				cam.FieldOfView = fixes.FieldOfView
+	--				cam:TiltUnits(-fixes.TiltUnits)
+	--				return t + (now - targ)
+	--			end
+	--		},
+	--		["Control"] = function(t,switch)
+	--			switch = switch == nil and true or switch
+	--			local phase = math.min((tonumber(t or 10) or 10),math.random() + (switch and 2 or 0))
+	--			local pick
+	--			if switch then
+	--				pick = fatboysraidmcdonalds.Camera.Smooth
+	--			else
+	--				pick = {}
+	--				for i,v in pairs(fatboysraidmcdonalds.Camera) do
+	--					if i ~= "Smooth" then
+	--						table.insert(pick,v)
+	--					end
+	--				end
+	--				pick = fatboysraidmcdonalds.SelectFromTable(pick)
+	--			end
+	--			local offset = pick(phase)
+	--			t = t - offset
+	--			if t >= 1 then
+	--				fatboysraidmcdonalds.Control(t,not switch)
+	--			elseif t > 0 then
+	--				fatboysraidmcdonalds.Control(t,false)
+	--			end
+	--		end,
+	--		["Snoop"] = function(t)
+	--			local snoopy = Instance.new("Part")
+	--			snoopy.Anchored = true
+	--			snoopy.Locked = true
+	--			snoopy.CanCollide = false
+	--			snoopy.FormFactor = "Custom"
+	--			snoopy.Transparency = 1
+	--			snoopy.Size = Vector3.new(2,2,1)
+	--			local lol = Instance.new("BillboardGui")
+	--			lol.Name = "anim"
+	--			lol.Adornee = lol.Parent
+	--			lol.AlwaysOnTop = false
+	--			lol.Size = UDim2.new(1.5,0,1.5,0)
+	--			lol.SizeOffset = Vector2.new(-0.5,-0.5)
+	--			lol.Parent = snoopy
+	--			local cam = Workspace.CurrentCamera
+	--			local function Pos(p)
+	--				return p + cam.Focus.p
+	--			end
+	--			local function newSnoop(tiem)
+	--				Spawn(function()
+	--					local new = snoopy:Clone()
+	--					local anim = new:WaitForChild("anim")
+	--					animGui(anim,snoopSequence,0.05)
+	--					local tack = tick()
+	--					local start = tack
+	--					local wow = tack*(((math.random()*2)-1)*57)
+	--					local s,c,r = math.sin(wow)*math.random(200,225)*0.01,math.cos(wow)*math.random(175,200)*0.01,-1 + (math.random()*2)
+	--					local dist = 10
+	--					local xp,yp,zp = dist*-s,dist*-r,dist*-c
+	--					local xe,ye,ze = dist*s,dist*r,dist*c
+	--					local pos,targ = Vector3.new(xp,yp,zp),Vector3.new(xe,ye,ze)
+	--					new.CFrame = Pos(CFrame.new(pos))
+	--					new.Parent = cam
+	--					tiem = tack + tiem
+	--					while tack <= tiem do
+	--						local diff = fatboysraidmcdonalds.Clamp((tack-start)/(tiem-start),0,1)
+	--						new.CFrame = Pos(CFrame.new(pos + ((targ-pos)*diff)))
+	--						wait()
+	--						tack = tick()
+	--					end
+	--					new.CFrame = Pos(CFrame.new(targ))
+	--					new:destroy()
+	--				end)
+	--			end
+	--			local now = tick()
+	--			local targ = now + t
+	--			while now <= targ do
+	--				local diff = targ - now
+	--				newSnoop(math.min(diff,0.75 + math.random()*0.5))
+	--				wait()
+	--				now = tick()
+	--			end
+	--		end,
+	--		["Illuminati"] = function(t,frame)
+	--			local decal = e
+	--			local audio = 168907893
+	--			local img = Instance.new("ImageLabel",frame)
+	--			img.BackgroundTransparency = 1
+	--			img.BorderSizePixel = 0
+	--			img.ImageTransparency = 0.5
+	--			img.ZIndex = 10
+	--			img.Size = UDim2.new(0.1,0,0.1,0)
+	--			img.Position = UDim2.new(0.45,0,0.45,0)
+	--			img.Image = "http://www.roblox.com/asset/?id="..tostring(decal)
+	--			local sound = Instance.new("Sound",img)                
+	--			sound.Volume = 0.75
+	--			sound.Looped = true
+	--			sound.PlayOnRemove = false
+	--			sound.SoundId = "http://www.roblox.com/asset/?id="..tostring(audio)
+	--			sound:Play()
+	--			img:TweenSizeAndPosition(UDim2.new(1,0,1,0),UDim2.new(0,0,0,0),"Out","Linear",t+1.5)
+	--			img.Changed:connect(function(p)
+	--				if p ~= "ImageTransparency" then
+	--					local x = img.Size.X.Scale
+	--					img.ImageTransparency = 1 - x
+	--					sound.Volume = x
+	--				end
+	--			end)
+	--		end
+	--	}
 
-function animGui(lol,sequence,speed)
-        local img = Instance.new("ImageLabel",lol)
-        img.BackgroundTransparency = 1
-        img.BorderSizePixel = 0
-        img.Size = UDim2.new(2.25,0,5,0)
-        img.Position = UDim2.new(0,0,-2.5,0)
-        Spawn(function()
-                local now = tick()
-                while img:IsDescendantOf(game) do
-                        img.Image = "http://www.roblox.com/asset/?id="..tostring(sequence[(math.floor((tick()-now)/speed)%#sequence)+1]-1)
-                        wait()
-                end
-        end)
-        return img
-end
+	--	function animGui(lol,sequence,speed)
+	--	--[[	local img = Instance.new("ImageLabel",lol)
+	--		img.BackgroundTransparency = 1
+	--		img.BorderSizePixel = 0
+	--		img.Size = UDim2.new(2.25,0,5,0)
+	--		img.Position = UDim2.new(0,0,-2.5,0)
+	--		Spawn(function()
+	--			local now = tick()
+	--			while img:IsDescendantOf(game) do
+	--				img.Image = "http://www.roblox.com/asset/?id="..tostring(sequence[(math.floor((tick()-now)/speed)%#sequence)+1]-1)
+	--				wait()
+	--			end
+	--		end)
+	--		return img ]]
+	--	end
 
-function Rainbow(h)
-        local h,s,v = h%1,1,1
-        local r, g, b
-        
-        local i = math.floor(h * 6);
-        local f = h * 6 - i;
-        local p = v * (1 - s);
-        local q = v * (1 - f * s);
-        local t = v * (1 - (1 - f) * s);
-        
-        i = i % 6
-        
-        if i == 0 then r, g, b = v, t, p
-        elseif i == 1 then r, g, b = q, v, p
-        elseif i == 2 then r, g, b = p, v, t
-        elseif i == 3 then r, g, b = p, q, v
-        elseif i == 4 then r, g, b = t, p, v
-        elseif i == 5 then r, g, b = v, p, q
-        end
-        
-        return r, g, b
-end
+	--	function Rainbow(h)
+	--	--[[	local h,s,v = h%1,1,1
+	--		local r, g, b
 
-local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
-gui.Name = "SnoopyMcSnooperson"
-local frame = Instance.new("Frame",gui)
-frame.Size = UDim2.new(1,0,1,0)
-frame.BackgroundTransparency = 1
-local snoop = animGui(frame,snoopSequence,0.05)
-snoop.Size = UDim2.new(0.25,0,0.50,0)
-snoop.Position = UDim2.new(-0.25,0,0.25,0)
-frog = animGui(frame,frogSequence,0.05)
-frog.Size = UDim2.new(0.25,0,0.50,0)
-frog.Position = UDim2.new(1,0,0.25,0)
+	--		local i = math.floor(h * 6);
+	--		local f = h * 6 - i;
+	--		local p = v * (1 - s);
+	--		local q = v * (1 - f * s);
+	--		local t = v * (1 - (1 - f) * s);
 
-trollLabels = {snoopSequence,frogSequence,"Can I have a large pizza with please, cheese?","thomas the weed engine","get out of my face","ur gone and i gutta stay hi111","a duble rainbow... wut dos it men??22/?/","im so high bro","im so high bruh","whoa im tripin balz man","get out of my face","ellomenartiy","WORK 8 HOURS\nPLAY 8 HOURS\nSLEEP 8 HOURS","fite the powur bruh","fite the man11","usa females are payed 20 cents less bru its unfair","why am i doing this to myself","the woods are my home man","run free little bro","teach me ur ways, snoopie-san kawabi","how much for a bong","i luv this bong man","oh yeah its right in my bronchioles man","is this real life??","this is a robbery","this is why my mom doesnt like me"}
-snoop:TweenPosition(UDim2.new(0,0,0.25,0), "Out", "Sine", 1, true)
-frog:TweenPosition(UDim2.new(0.75,0,0.25,0), "Out","Sine", 1, true)
-Spawn(function()
-        local start = tick()
-        local last = start
-        local ending = false
-        local tiem = 10
-        Spawn(function()
-                fatboysraidmcdonalds.Control(tiem)
-        end)
-        Spawn(function()
-                fatboysraidmcdonalds.Snoop(tiem)
-        end)
-        Spawn(function()
-                fatboysraidmcdonalds.Illuminati(tiem,frame)
-        end)
-        while true do
-                local tack = tick()
-                local now = tack-start
-                frog.Rotation = now*360
-                if now <= tiem then
-                        local k = math.min(now/2,0.5)
-                        frame.BackgroundTransparency = 1 - k
-                        if tack - last >= 0.25 then
-                                for i = 1,3 do
-                                        local wow = tack*(((math.random()*2)-1)*57)
-                                        local s,c = math.sin(wow)*math.random(200,225)*0.01,math.cos(wow)*math.random(175,200)*0.01
-                                        local dist = 0.5
-                                        local xp,yp = dist+(dist*s),dist+(dist*c)
-                                        local xe,ye = dist-(dist*s),dist-(dist*c)
-                                        local funk
-                                        if i == 1 then
-                                                funk = trollLabels[math.random(1,2)]
-                                        else
-                                                funk = trollLabels[math.random(3,#trollLabels)]
-                                        end
-                                        local ngui
-                                        local size = math.random()*0.25
-                                        if funk == snoopSequence then
-                                                ngui = animGui(frame,funk,0.05)
-                                                ngui.Size = UDim2.new(size,0,size*2,0)
-                                                ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
-                                        elseif funk == frogSequence then
-                                                ngui = animGui(frame,funk,0.05)
-                                                ngui.Size = UDim2.new(size,0,size,0)
-                                                ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
-                                        else
-                                                ngui = Instance.new("TextLabel",frame)
-                                                local bt = frame.BackgroundTransparency
-                                                ngui.TextTransparency = (bt-0.5)/0.5
-                                                ngui.TextStrokeTransparency = bt
-                                                ngui.BackgroundTransparency = 1
-                                                ngui.TextColor3 = Color3.new(math.random(),math.random(),math.random())
-                                                ngui.Font = "ArialBold"
-                                                ngui.Text = funk
-                                                ngui.Size = UDim2.new(size*0.5,0,size*0.5,0)
-                                                ngui.TextScaled = true
-                                                ngui.TextWrapped = false
-                                                ngui.FontSize = "Size48"
-                                        end
-                                        ngui.Position = UDim2.new(xp,0,yp,0)
-                                        ngui:TweenPosition(UDim2.new(xe,0,ye,0), "Out", "Linear", math.random(35,80)*0.035*i, true,function()
-                                                ngui:destroy()
-                                        end)
-                                        if i == 1 then
-                                                local sp = 500*(1-(math.random()*2))
-                                                ngui.Changed:connect(function(prop)
-                                                        if prop ~= "Rotation" and prop ~= "ImageTransparency" then
-                                                                ngui.Rotation = (tick()-tack)*sp
-                                                                ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
-                                                        end
-                                                end)
-                                        else
-                                                ngui.Changed:connect(function(prop)
-                                                        if prop ~= "TextTransparency" and prop ~= "TextStrokeTransparency" then
-                                                                local bt = frame.BackgroundTransparency
-                                                                ngui.TextTransparency = (bt-0.5)/0.5
-                                                                ngui.TextStrokeTransparency = bt
-                                                        end
-                                                end)
-                                        end
-                                end
-                                last = tack
-                        end
-                else
-                        if not ending then
-                                ending = true
-                                snoop:TweenPosition(UDim2.new(-0.25,0,0.25,0), "Out", "Sine", math.max((tiem+1)-now,0), true)
-                                frog:TweenPosition(UDim2.new(1,0,0.25,0), "Out", "Sine", math.max((tiem+1)-now,0), true)
-                        end
-                        local nao = math.max(((tiem+1)-now)*0.3,0)
-                        frame.BackgroundTransparency = 1 - nao
-                        if nao == 0 then
-                                gui:destroy()
-                                return
-                        end
-                end
-                frame.BackgroundColor3 = Color3.new(Rainbow(now))
-                wait()
-        end
-end)
+	--		i = i % 6
+
+	--		if i == 0 then r, g, b = v, t, p
+	--		elseif i == 1 then r, g, b = q, v, p
+	--		elseif i == 2 then r, g, b = p, v, t
+	--		elseif i == 3 then r, g, b = p, q, v
+	--		elseif i == 4 then r, g, b = t, p, v
+	--		elseif i == 5 then r, g, b = v, p, q
+	--		end
+
+	--		return r, g, b]]
+	--	end
+
+	--	local gui = Instance.new("ScreenGui",game.Players.LocalPlayer.PlayerGui)
+	--	gui.Name = "SnoopyMcSnooperson"
+	--	local frame = Instance.new("Frame",gui)
+	--	frame.Size = UDim2.new(1,0,1,0)
+	--	frame.BackgroundTransparency = 1
+	--	local snoop = animGui(frame,snoopSequence,0.05)
+	--	snoop.Size = UDim2.new(0.25,0,0.50,0)
+	--	snoop.Position = UDim2.new(-0.25,0,0.25,0)
+	--	frog = animGui(frame,frogSequence,0.05)
+	--	frog.Size = UDim2.new(0.25,0,0.50,0)
+	--	frog.Position = UDim2.new(1,0,0.25,0)
+
+	--	trollLabels = {snoopSequence,frogSequence,"Can I have a large pizza with please, cheese?","thomas the weed engine","get out of my face","ur gone and i gutta stay hi111","a duble rainbow... wut dos it men??22/?/","im so high bro","im so high bruh","whoa im tripin balz man","get out of my face","ellomenartiy","WORK 8 HOURS\nPLAY 8 HOURS\nSLEEP 8 HOURS","fite the powur bruh","fite the man11","usa females are payed 20 cents less bru its unfair","why am i doing this to myself","the woods are my home man","run free little bro","teach me ur ways, snoopie-san kawabi","how much for a bong","i luv this bong man","oh yeah its right in my bronchioles man","is this real life??","this is a robbery","this is why my mom doesnt like me"}
+	--	snoop:TweenPosition(UDim2.new(0,0,0.25,0), "Out", "Sine", 1, true)
+	--	frog:TweenPosition(UDim2.new(0.75,0,0.25,0), "Out","Sine", 1, true)
+	--	Spawn(function()
+	--		local start = tick()
+	--		local last = start
+	--		local ending = false
+	--		local tiem = 10
+	--		Spawn(function()
+	--			fatboysraidmcdonalds.Control(tiem)
+	--		end)
+	--		Spawn(function()
+	--			fatboysraidmcdonalds.Snoop(tiem)
+	--		end)
+	--		Spawn(function()
+	--			fatboysraidmcdonalds.Illuminati(tiem,frame)
+	--		end)
+	--		while true do
+	--			local tack = tick()
+	--			local now = tack-start
+	--			frog.Rotation = now*360
+	--			if now <= tiem then
+	--				local k = math.min(now/2,0.5)
+	--				frame.BackgroundTransparency = 1 - k
+	--				if tack - last >= 0.25 then
+	--					for i = 1,3 do
+	--						local wow = tack*(((math.random()*2)-1)*57)
+	--						local s,c = math.sin(wow)*math.random(200,225)*0.01,math.cos(wow)*math.random(175,200)*0.01
+	--						local dist = 0.5
+	--						local xp,yp = dist+(dist*s),dist+(dist*c)
+	--						local xe,ye = dist-(dist*s),dist-(dist*c)
+	--						local funk
+	--						if i == 1 then
+	--							funk = trollLabels[math.random(1,2)]
+	--						else
+	--							funk = trollLabels[math.random(3,#trollLabels)]
+	--						end
+	--						local ngui
+	--						local size = math.random()*0.25
+	--						if funk == snoopSequence then
+	--							ngui = animGui(frame,funk,0.05)
+	--							ngui.Size = UDim2.new(size,0,size*2,0)
+	--							ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
+	--						elseif funk == frogSequence then
+	--							ngui = animGui(frame,funk,0.05)
+	--							ngui.Size = UDim2.new(size,0,size,0)
+	--							ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
+	--						else
+	--							ngui = Instance.new("TextLabel",frame)
+	--							local bt = frame.BackgroundTransparency
+	--							ngui.TextTransparency = (bt-0.5)/0.5
+	--							ngui.TextStrokeTransparency = bt
+	--							ngui.BackgroundTransparency = 1
+	--							ngui.TextColor3 = Color3.new(math.random(),math.random(),math.random())
+	--							ngui.Font = "ArialBold"
+	--							ngui.Text = funk
+	--							ngui.Size = UDim2.new(size*0.5,0,size*0.5,0)
+	--							ngui.TextScaled = true
+	--							ngui.TextWrapped = false
+	--							ngui.FontSize = "Size48"
+	--						end
+	--						ngui.Position = UDim2.new(xp,0,yp,0)
+	--						ngui:TweenPosition(UDim2.new(xe,0,ye,0), "Out", "Linear", math.random(35,80)*0.035*i, true,function()
+	--							ngui:destroy()
+	--						end)
+	--						if i == 1 then
+	--							local sp = 500*(1-(math.random()*2))
+	--							ngui.Changed:connect(function(prop)
+	--								if prop ~= "Rotation" and prop ~= "ImageTransparency" then
+	--									ngui.Rotation = (tick()-tack)*sp
+	--									ngui.ImageTransparency = (frame.BackgroundTransparency*2) - 1
+	--								end
+	--							end)
+	--						else
+	--							ngui.Changed:connect(function(prop)
+	--								if prop ~= "TextTransparency" and prop ~= "TextStrokeTransparency" then
+	--									local bt = frame.BackgroundTransparency
+	--									ngui.TextTransparency = (bt-0.5)/0.5
+	--									ngui.TextStrokeTransparency = bt
+	--								end
+	--							end)
+	--						end
+	--					end
+	--					last = tack
+	--				end
+	--			else
+	--				if not ending then
+	--					ending = true
+	--					snoop:TweenPosition(UDim2.new(-0.25,0,0.25,0), "Out", "Sine", math.max((tiem+1)-now,0), true)
+	--					frog:TweenPosition(UDim2.new(1,0,0.25,0), "Out", "Sine", math.max((tiem+1)-now,0), true)
+	--				end
+	--				local nao = math.max(((tiem+1)-now)*0.3,0)
+	--				frame.BackgroundTransparency = 1 - nao
+	--				if nao == 0 then
+	--					gui:destroy()
+	--					return
+	--				end
+	--			end
+	--			frame.BackgroundColor3 = Color3.new(Rainbow(now))
+	--			wait()
+	--		end
+	--	end)
 end
 ----------------------------------------------------
 local Using="Bong"
 local tools={m,m2,m3}
 function tolFad(nam)
-        local tol=nil
-        for _,v in pairs(tools) do
-                if Using=="Bong" then
-                        tol=m
-                elseif Using=="Blunt" then
-                        tol=m2
-                elseif Using=="Pipe" then
-                        tol=m3
-                end
-                if v~=tol then
-                        for _,c in pairs(v:GetChildren()) do
-                                if c:IsA("Part") then
-                                        c.Transparency=1
-                                end
-                        end
-                else
-                        for _,c in pairs(v:GetChildren()) do
-                                if c:IsA("Part") and c.Name ~= "Bong" and c.Name ~= "Tube" then
-                                        c.Transparency = 0
-                                elseif c:IsA("Part") and c.Name == "Bong" or c.Name == "Tube" then
-                                        c.Transparency = 0.2
-                                end
-                        end
-                end
-        end
+	local tol=nil
+	for _,v in pairs(tools) do
+		if Using=="Bong" then
+			tol=m
+		elseif Using=="Blunt" then
+			tol=m2
+		elseif Using=="Pipe" then
+			tol=m3
+		end
+		if v~=tol then
+			for _,c in pairs(v:GetChildren()) do
+				if c:IsA("Part") then
+					c.Transparency=1
+				end
+			end
+		else
+			for _,c in pairs(v:GetChildren()) do
+				if c:IsA("Part") and c.Name ~= "Bong" and c.Name ~= "Tube" then
+					c.Transparency = 0
+				elseif c:IsA("Part") and c.Name == "Bong" or c.Name == "Tube" then
+					c.Transparency = 0.2
+				end
+			end
+		end
+	end
 end
 --[[if Debounces.Bong == true then
         Debounces.Pipe = false
@@ -1359,222 +1360,222 @@ elseif Debounces.Blunt == true then
 end]]--
 ----------------------------------------------------
 mouse.KeyDown:connect(function(key)
-        if key == "q" then
-                if Debounces.CanPuff == true then
-                        Using = "Bong"
-                        stanceToggle = "Bong"
-                        tolFad(Using)
-                end
-        end
+	if key == "q" then
+		if Debounces.CanPuff == true then
+			Using = "Bong"
+			stanceToggle = "Bong"
+			tolFad(Using)
+		end
+	end
 end)
 mouse.KeyDown:connect(function(key)
-        if key == "e" then
-                if Debounces.CanPuff == true then
-                        Using = "Pipe"
-                        stanceToggle = "Pipe"
-                        tolFad(Using)
-                end
-        end
+	if key == "e" then
+		if Debounces.CanPuff == true then
+			Using = "Pipe"
+			stanceToggle = "Pipe"
+			tolFad(Using)
+		end
+	end
 end)
 mouse.KeyDown:connect(function(key)
-        if key == "r" then
-                if Debounces.CanPuff == true then
-                        Using = "Blunt"
-                        stanceToggle = "Blunt"
-                        tolFad(Using)
-                end
-        end
+	if key == "r" then
+		if Debounces.CanPuff == true then
+			Using = "Blunt"
+			stanceToggle = "Blunt"
+			tolFad(Using)
+		end
+	end
 end)
 ----------------------------------------------------
 mt = {8, 8.4, 8.8, 9, 9.4}
 mouse.KeyDown:connect(function(key)
-        if key == "h" then
-        if Debounces.CanJoke == true then
-        Debounces.CanJoke = false
-        z                 = Instance.new("Sound",hed)
-        z.SoundId         = "http://www.roblox.com/asset/?id=238500679"
-        z.Looped          = false
-        z.Pitch           = mt[math.random(1,#mt)]
-        z.Volume          = 1
-        z2                = Instance.new("Sound",hed)
-        z2.SoundId        = "http://www.roblox.com/asset/?id=238500679"
-        z2.Looped         = false
-        z2.Pitch          = z.Pitch
-        z2.Volume         = 1
-        z3                = Instance.new("Sound",hed)
-        z3.SoundId        = "http://www.roblox.com/asset/?id=238500679"
-        z3.Looped         = false
-        z3.Pitch          = z.Pitch
-        z3.Volume         = 1
-        z4                = Instance.new("Sound",hed)
-        z4.SoundId        = "http://www.roblox.com/asset/?id=238500679"
-        z4.Looped         = false
-        z4.Pitch          = z.Pitch
-        z4.Volume         = 1
-        z:Play()
-        z2:Play()
-        z3:Play()
-        z4:Play()
-        wait(1)
-        z:Destroy()
-        z2:Destroy()
-        z3:Destroy()
-        z4:Destroy()
-        if Debounces.CanJoke == false then
-        Debounces.CanJoke = true
-end
-end
-end
+	if key == "h" then
+		if Debounces.CanJoke == true then
+			Debounces.CanJoke = false
+			z                 = Instance.new("Sound",hed)
+			z.SoundId         = "http://www.roblox.com/asset/?id=238500679"
+			z.Looped          = false
+			z.Pitch           = mt[math.random(1,#mt)]
+			z.Volume          = 1
+			z2                = Instance.new("Sound",hed)
+			z2.SoundId        = "http://www.roblox.com/asset/?id=238500679"
+			z2.Looped         = false
+			z2.Pitch          = z.Pitch
+			z2.Volume         = 1
+			z3                = Instance.new("Sound",hed)
+			z3.SoundId        = "http://www.roblox.com/asset/?id=238500679"
+			z3.Looped         = false
+			z3.Pitch          = z.Pitch
+			z3.Volume         = 1
+			z4                = Instance.new("Sound",hed)
+			z4.SoundId        = "http://www.roblox.com/asset/?id=238500679"
+			z4.Looped         = false
+			z4.Pitch          = z.Pitch
+			z4.Volume         = 1
+			z:Play()
+			z2:Play()
+			z3:Play()
+			z4:Play()
+			wait(1)
+			z:Destroy()
+			z2:Destroy()
+			z3:Destroy()
+			z4:Destroy()
+			if Debounces.CanJoke == false then
+				Debounces.CanJoke = true
+			end
+		end
+	end
 end)
 ----------------------------------------------------
 mouse.Button1Down:connect(function(hoot)
-        if Debounces.CanPuff == true and Using == "Bong" then
-                Debounces.CanPuff = false
-                Debounces.NoIdl = true
-                Debounces.on = true
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.2,0.55,-1.4)*CFrame.Angles(math.rad(50),math.rad(0),math.rad(-40)), 0.2)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-50), 0, 0), 0.4)
-                        torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-                        lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
-                        rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
-                        weld2.C0 = Lerp(weld2.C0, CFrame.new(0, -.5, -1.4), 0.4)
-                        weld2.C1 = Lerp(weld2.C1, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-30),0,0), 0.4)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-        Match1()
-z = Instance.new("Sound",hed)
-z.SoundId = "rbxassetid://174628230"
-z.Looped = true
-z.Pitch = 2
-z.Volume = 1
-z1 = Instance.new("Sound",hed)
-z1.SoundId = "rbxassetid://174628230"
-z1.Looped = true
-z1.Pitch = 2
-z1.Volume = 1
-wait(1)
-z:Play()
-z1:Play()
-Burn()
-wait(2.4)
-for i = 1,10 do
-        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-        if Debounces.on == false then break end
-        wait()
-end
-Match2()
-wait(2.6)
-                z:Stop()
-                z1:Stop()
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(40), 0, 0), 0.4)
-                        weld2.C0 = Lerp(weld2.C0, CFrame.new(0, -.5, -1.5), 0.4)
-                        weld2.C1 = Lerp(weld2.C1, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), 0.4)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-        s.Enabled = true
-        wait(5)
-        s.Enabled = false
-                Snoop()
-                if Debounces.CanPuff == false then
-                Debounces.CanPuff = true
-                Debounces.NoIdl = false
-                Debounces.on = true
-                end
-        end
+	if Debounces.CanPuff == true and Using == "Bong" then
+		Debounces.CanPuff = false
+		Debounces.NoIdl = true
+		Debounces.on = true
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.2,0.55,-1.4)*CFrame.Angles(math.rad(50),math.rad(0),math.rad(-40)), 0.2)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-50), 0, 0), 0.4)
+			torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+			lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
+			rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
+			weld2.C0 = Lerp(weld2.C0, CFrame.new(0, -.5, -1.4), 0.4)
+			weld2.C1 = Lerp(weld2.C1, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(-30),0,0), 0.4)
+			if Debounces.on == false then break end
+			wait()
+		end
+		Match1()
+		z = Instance.new("Sound",hed)
+		z.SoundId = "rbxassetid://174628230"
+		z.Looped = true
+		z.Pitch = 2
+		z.Volume = 1
+		z1 = Instance.new("Sound",hed)
+		z1.SoundId = "rbxassetid://174628230"
+		z1.Looped = true
+		z1.Pitch = 2
+		z1.Volume = 1
+		wait(1)
+		z:Play()
+		z1:Play()
+		Burn()
+		wait(2.4)
+		for i = 1,10 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+			if Debounces.on == false then break end
+			wait()
+		end
+		Match2()
+		wait(2.6)
+		z:Stop()
+		z1:Stop()
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(40), 0, 0), 0.4)
+			weld2.C0 = Lerp(weld2.C0, CFrame.new(0, -.5, -1.5), 0.4)
+			weld2.C1 = Lerp(weld2.C1, CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0)), 0.4)
+			if Debounces.on == false then break end
+			wait()
+		end
+		s.Enabled = true
+		wait(5)
+		s.Enabled = false
+		Snoop()
+		if Debounces.CanPuff == false then
+			Debounces.CanPuff = true
+			Debounces.NoIdl = false
+			Debounces.on = true
+		end
+	end
 end)
 ----------------------------------------------------
 mouse.Button1Down:connect(function(hoot)
-        if Debounces.CanPuff == true and Using == "Pipe" then
-                Debounces.CanPuff = false
-                Debounces.NoIdl = true
-                Debounces.on = true
-                Match1()
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.1,0.65,-.3)*CFrame.Angles(math.rad(115),math.rad(-10),math.rad(-30)), 0.2)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.45)*CFrame.Angles(math.rad(110),math.rad(10),math.rad(45)), 0.2)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-10), 0, 0), 0.4)
-                        torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-                        lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
-                        rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-            Burn2()
-                wait(2.4)
-                for i = 1,10 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.3,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.4)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-                Match2()
-                wait(2.6)
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.3,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.4)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.3)*CFrame.Angles(math.rad(110),math.rad(0),math.rad(20)), 0.6)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(30), 0, 0), 0.4)
-                        torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-                        lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
-                        rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-                s.Enabled = true
-                wait(5)
-                s.Enabled = false
-                Snoop()
-                if Debounces.CanPuff == false then
-                Debounces.CanPuff = true
-                Debounces.NoIdl = false
-                Debounces.on = true
-                end
-        end
+	if Debounces.CanPuff == true and Using == "Pipe" then
+		Debounces.CanPuff = false
+		Debounces.NoIdl = true
+		Debounces.on = true
+		Match1()
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.1,0.65,-.3)*CFrame.Angles(math.rad(115),math.rad(-10),math.rad(-30)), 0.2)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.45)*CFrame.Angles(math.rad(110),math.rad(10),math.rad(45)), 0.2)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-10), 0, 0), 0.4)
+			torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+			lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
+			rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
+			if Debounces.on == false then break end
+			wait()
+		end
+		Burn2()
+		wait(2.4)
+		for i = 1,10 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.3,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.4)
+			if Debounces.on == false then break end
+			wait()
+		end
+		Match2()
+		wait(2.6)
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.3,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.4)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.3)*CFrame.Angles(math.rad(110),math.rad(0),math.rad(20)), 0.6)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(30), 0, 0), 0.4)
+			torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+			lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
+			rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
+			if Debounces.on == false then break end
+			wait()
+		end
+		s.Enabled = true
+		wait(5)
+		s.Enabled = false
+		Snoop()
+		if Debounces.CanPuff == false then
+			Debounces.CanPuff = true
+			Debounces.NoIdl = false
+			Debounces.on = true
+		end
+	end
 end)
 ----------------------------------------------------
 mouse.Button1Down:connect(function(hoot)
-        if Debounces.CanPuff == true and Using == "Blunt" then
-                Debounces.CanPuff = false
-                Debounces.NoIdl = true
-                Debounces.on = true
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,.1)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.45)*CFrame.Angles(math.rad(115),math.rad(10),math.rad(40)), 0.2)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-15), 0, 0), 0.4)
-                        torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-                        lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
-                        rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-                wait(0.5)
-                Burn3()
-                wait()
-                for i = 1,20 do
-                        rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
-                        larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.3)*CFrame.Angles(math.rad(115),math.rad(0),math.rad(-20)), 0.6)
-                        hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(30), 0, 0), 0.4)
-                        torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-                        lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
-                        rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
-                        if Debounces.on == false then break end
-                        wait()
-                end
-                s.Enabled = true
-                wait(5)
-                s.Enabled = false
-                Snoop()
-                if Debounces.CanPuff == false then
-                Debounces.CanPuff = true
-                Debounces.NoIdl = false
-                Debounces.on = true
-                end
-        end
+	if Debounces.CanPuff == true and Using == "Blunt" then
+		Debounces.CanPuff = false
+		Debounces.NoIdl = true
+		Debounces.on = true
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,.1)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.45)*CFrame.Angles(math.rad(115),math.rad(10),math.rad(40)), 0.2)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, -.4) * CFrame.Angles(math.rad(-15), 0, 0), 0.4)
+			torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+			lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
+			rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
+			if Debounces.on == false then break end
+			wait()
+		end
+		wait(0.5)
+		Burn3()
+		wait()
+		for i = 1,20 do
+			rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
+			larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.3,0.6,-.3)*CFrame.Angles(math.rad(115),math.rad(0),math.rad(-20)), 0.6)
+			hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0, 1.5, .2) * CFrame.Angles(math.rad(30), 0, 0), 0.4)
+			torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+			lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-5)), 0.2)
+			rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(5)), 0.2)
+			if Debounces.on == false then break end
+			wait()
+		end
+		s.Enabled = true
+		wait(5)
+		s.Enabled = false
+		Snoop()
+		if Debounces.CanPuff == false then
+			Debounces.CanPuff = true
+			Debounces.NoIdl = false
+			Debounces.on = true
+		end
+	end
 end)
 ----------------------------------------------------
 local animpose = "Idle"
@@ -1590,90 +1591,90 @@ jump = true
 else
 jump = false
 end]]
-char.Humanoid.FreeFalling:connect(function(f)
-if f then
-ffing = true
-else
-ffing = false
-end
-end)
-sine = sine + change
-if jumpn == true then
-animpose = "Jumping"
-elseif ffing == true then
-animpose = "Freefalling"
-elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude < 2 then
-animpose = "Idle"
-elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude < 20 then
-animpose = "Walking"
-elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude > 20 then
-animpose = "Running"
-end
-if animpose ~= lastanimpose then
-sine = 0
-if Debounces.NoIdl == false then
-for i = 1, 2 do
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
-wait()
-end
-else
-end
-end
-lastanimpose = animpose
-if Debounces.NoIdl == false then
-if animpose == "Idle" then
-if stanceToggle == "Bong" then
-change = 0.5
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
-elseif stanceToggle == "Pipe" then
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,0)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
-elseif stanceToggle == "Blunt" then
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(-14)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
-end
-elseif animpose == "Walking" then
-if stanceToggle == "Bong" then
-change = 1
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
-elseif stanceToggle == "Pipe" then
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5, 0.5-.05*math.cos(sine/4), math.sin(sine/8)/4) * CFrame.Angles(-math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(10+2*math.cos(sine/4))), 0.2)
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,0)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
-elseif stanceToggle == "Blunt" then
-larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5, 0.5+.05*math.cos(sine/4), -math.sin(sine/8)/4)*CFrame.Angles(math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(-10-2*math.cos(sine/3))), 0.2)
-rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5, 0.5-.05*math.cos(sine/4), math.sin(sine/8)/4) * CFrame.Angles(-math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(10+2*math.cos(sine/3))), 0.2)
-hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
-torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
-lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
-rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
-end
-end
-end
+	char.Humanoid.FreeFalling:connect(function(f)
+		if f then
+			ffing = true
+		else
+			ffing = false
+		end
+	end)
+	sine = sine + change
+	if jumpn == true then
+		animpose = "Jumping"
+	elseif ffing == true then
+		animpose = "Freefalling"
+	elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude < 2 then
+		animpose = "Idle"
+	elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude < 20 then
+		animpose = "Walking"
+	elseif (torso.Velocity*Vector3.new(1, 0, 1)).magnitude > 20 then
+		animpose = "Running"
+	end
+	if animpose ~= lastanimpose then
+		sine = 0
+		if Debounces.NoIdl == false then
+			for i = 1, 2 do
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
+				wait()
+			end
+		else
+		end
+	end
+	lastanimpose = animpose
+	if Debounces.NoIdl == false then
+		if animpose == "Idle" then
+			if stanceToggle == "Bong" then
+				change = 0.5
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
+			elseif stanceToggle == "Pipe" then
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(20)), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,0)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
+			elseif stanceToggle == "Blunt" then
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(10)), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.6,0)*CFrame.Angles(math.rad(0),math.rad(0),math.rad(-14)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20+1*math.cos(sine/14)),math.rad(0),0), 0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1, 0) * CFrame.Angles(0, math.rad(0), 0), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(-10)), 0.2)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1, 0) * CFrame.Angles(0, 0, math.rad(10)), 0.2)
+			end
+		elseif animpose == "Walking" then
+			if stanceToggle == "Bong" then
+				change = 1
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,-.3)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(30)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
+			elseif stanceToggle == "Pipe" then
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5, 0.5-.05*math.cos(sine/4), math.sin(sine/8)/4) * CFrame.Angles(-math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(10+2*math.cos(sine/4))), 0.2)
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5,0.65,0)*CFrame.Angles(math.rad(60),math.rad(0),math.rad(-30)), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
+			elseif stanceToggle == "Blunt" then
+				larm.Weld.C0 = Lerp(larm.Weld.C0, CFrame.new(-1.5, 0.5+.05*math.cos(sine/4), -math.sin(sine/8)/4)*CFrame.Angles(math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(-10-2*math.cos(sine/3))), 0.2)
+				rarm.Weld.C0 = Lerp(rarm.Weld.C0, CFrame.new(1.5, 0.5-.05*math.cos(sine/4), math.sin(sine/8)/4) * CFrame.Angles(-math.sin(sine/8)/2.8, -math.sin(sine/8)/3, math.rad(10+2*math.cos(sine/3))), 0.2)
+				hed.Weld.C0 = Lerp(hed.Weld.C0, CFrame.new(0,1.5,-.2)*CFrame.Angles(math.rad(-20), math.rad(0), math.rad(0)),0.2)
+				torso.Weld.C0 = Lerp(torso.Weld.C0, CFrame.new(0, -1+0.07*math.cos(sine/4), 0) * CFrame.Angles(math.rad(-4+1*math.cos(sine/4)), 0, math.rad(0)), 0.2)
+				lleg.Weld.C0 = Lerp(lleg.Weld.C0, CFrame.new(-0.5, -1-0.14*math.cos(sine/8)/2.8, -0.05 + math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + -math.sin(sine/8)/2.3, 0, 0), .4)
+				rleg.Weld.C0 = Lerp(rleg.Weld.C0, CFrame.new(0.5, -1+0.14*math.cos(sine/8)/2.8, -0.05 + -math.sin(sine/8)/3.4) * CFrame.Angles(math.rad(-10) + math.sin(sine/8)/2.3, 0, 0), .4)
+			end
+		end
+	end
 end)
