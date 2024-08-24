@@ -840,6 +840,8 @@ function Burn()
 	for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
 	for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
 	pl:Remove()
+	wait(1)
+	bk.VertexColor=Vector3.new(1,1,0)
 end
 ----------------------------------------------------
 function Burn2()
@@ -850,6 +852,8 @@ function Burn2()
 	for i=1,50 do wait()bk.VertexColor=bk.VertexColor+Vector3.new(.05,0,0)pl.Brightness=pl.Brightness+0.05 end
 	for i=1,50 do wait()bk.VertexColor=bk.VertexColor-Vector3.new(.05,0,0)pl.Brightness=pl.Brightness-0.05 end
 	pl:Remove()
+	wait(1)
+	bk.VertexColor=Vector3.new(1,1,0)
 end
 ----------------------------------------------------
 function Burn3()
@@ -865,6 +869,8 @@ function Burn3()
 	brn.BrickColor = BrickColor.new("Really black")
 	wait(1)
 	brn.BrickColor = BrickColor.new("White")
+	wait(1)
+	brn.BrickColor = BrickColor.new("CGA brown")
 end
 ----------------------------------------------------
 function Match1()
