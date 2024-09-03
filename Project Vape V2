@@ -3,7 +3,7 @@ if game:GetService("RunService"):IsClient()then
 end
 
 if owner then
-	local MainTool = Instance.new("Tool",owner.Backpack or nil)
+	local MainTool = Instance.new("Tool",owner.Backpack)
 	MainTool.Name = "Vape V2"
 	--MainTool.RequiresHandle = false
 	MainTool.CanBeDropped = false
