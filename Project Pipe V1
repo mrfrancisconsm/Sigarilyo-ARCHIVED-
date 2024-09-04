@@ -1,0 +1,270 @@
+Tool0 = Instance.new("Tool")
+Part1 = Instance.new("Part")
+Part1.CanCollide = false
+SpecialMesh2 = Instance.new("SpecialMesh")
+Part3 = Instance.new("Part")
+Part3.CanCollide = false
+SpecialMesh4 = Instance.new("SpecialMesh")
+Part5 = Instance.new("Part")
+Part5.CanCollide = false
+ParticleEmitter6 = Instance.new("ParticleEmitter")
+ParticleEmitter6.LockedToPart = true
+Part7 = Instance.new("Part")
+Part7.CanCollide = false
+SpecialMesh8 = Instance.new("SpecialMesh")
+Part9 = Instance.new("Part")
+Part9.CanCollide = false
+SpecialMesh10 = Instance.new("SpecialMesh")
+Weld11 = Instance.new("Weld")
+Weld12 = Instance.new("Weld")
+Weld13 = Instance.new("Weld")
+Weld14 = Instance.new("Weld")
+Tool0.Name = "Pipe"
+Tool0.Parent = owner
+Tool0.Grip = CFrame.new(0.285432339, -0.081741333, -0.48809433, -0.00770107191, -0.877220571, 0.480026126, 0.00386038516, 0.480010659, 0.877254367, -0.999962986, 0.00860888232, -0.000310187228)
+Tool0.GripForward = Vector3.new(-0.48002612590789795, -0.8772543668746948, 0.0003101872280240059)
+Tool0.GripPos = Vector3.new(0.2854323387145996, -0.0817413330078125, -0.4880943298339844)
+Tool0.GripRight = Vector3.new(-0.007701071910560131, 0.0038603851571679115, -0.9999629855155945)
+Tool0.GripUp = Vector3.new(-0.8772205710411072, 0.48001065850257874, 0.008608882315456867)
+Part1.Name = "Bowl"
+Part1.Parent = Tool0
+Part1.CFrame = CFrame.new(-14.5439882, 0.344278693, 16.2351627, 1, 0, 0, 0, -1, 0, 0, 0, -1)
+Part1.Orientation = Vector3.new(0, 180, 180)
+Part1.Position = Vector3.new(-14.543988227844238, 0.3442786931991577, 16.23516273498535)
+Part1.Rotation = Vector3.new(180, 0, 0)
+Part1.Color = Color3.new(0.666667, 0.333333, 0)
+Part1.Size = Vector3.new(0.4000000059604645, 0.6885573863983154, 0.4000000059604645)
+Part1.BottomSurface = Enum.SurfaceType.Smooth
+Part1.BrickColor = BrickColor.new("CGA brown")
+Part1.Material = Enum.Material.Wood
+Part1.TopSurface = Enum.SurfaceType.Smooth
+Part1.brickColor = BrickColor.new("CGA brown")
+SpecialMesh2.Parent = Part1
+SpecialMesh2.MeshId = "http://www.roblox.com/asset/?id=19380188"
+SpecialMesh2.Scale = Vector3.new(0.30000001192092896, 0.8999999761581421, 0.30000001192092896)
+SpecialMesh2.MeshType = Enum.MeshType.FileMesh
+Part3.Name = "Handle"
+Part3.Parent = Tool0
+Part3.CFrame = CFrame.new(-14.5439882, 0.501028776, 16.7563286, 0, 0, -1, -0.866025388, 0.49999997, 0, 0.49999997, 0.866025388, 0)
+Part3.Orientation = Vector3.new(0, -90, -60)
+Part3.Position = Vector3.new(-14.543988227844238, 0.5010287761688232, 16.756328582763672)
+Part3.Rotation = Vector3.new(60, -90, 0)
+Part3.Color = Color3.new(0.666667, 0.333333, 0)
+Part3.Size = Vector3.new(0.20000000298023224, 1.1898243427276611, 0.20000000298023224)
+Part3.BottomSurface = Enum.SurfaceType.Smooth
+Part3.BrickColor = BrickColor.new("CGA brown")
+Part3.Material = Enum.Material.Wood
+Part3.TopSurface = Enum.SurfaceType.Smooth
+Part3.brickColor = BrickColor.new("CGA brown")
+SpecialMesh4.Parent = Part3
+Part5.Name = "Emitter"
+Part5.Parent = Tool0
+Part5.CFrame = CFrame.new(-14.5439882, 0.71119976, 16.1327019, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part5.Position = Vector3.new(-14.543988227844238, 0.7111997604370117, 16.132701873779297)
+Part5.Color = Color3.new(0.666667, 0.333333, 0)
+Part5.Transparency = 1
+Part5.Size = Vector3.new(0.4000000059604645, 0.04728533327579498, 0.4000000059604645)
+Part5.BottomSurface = Enum.SurfaceType.Smooth
+Part5.BrickColor = BrickColor.new("CGA brown")
+Part5.Material = Enum.Material.Wood
+Part5.TopSurface = Enum.SurfaceType.Smooth
+Part5.brickColor = BrickColor.new("CGA brown")
+ParticleEmitter6.Parent = Part5
+ParticleEmitter6.Speed = NumberRange.new(0.20000000298023224, 0.20000000298023224)
+ParticleEmitter6.Rotation = NumberRange.new(100, 100)
+ParticleEmitter6.Texture = "http://www.roblox.com/asset/?id=382199579"
+ParticleEmitter6.Transparency = NumberSequence.new(0.8812500238418579,0.6899999976158142,0.7900000214576721,1)
+ParticleEmitter6.Size = NumberSequence.new(0.041322700679302216,0.2066120058298111)
+ParticleEmitter6.Lifetime = NumberRange.new(2.5, 2.5)
+ParticleEmitter6.Rate = 90
+ParticleEmitter6.RotSpeed = NumberRange.new(100, 100)
+ParticleEmitter6.SpreadAngle = Vector2.new(10, 10)
+ParticleEmitter6.VelocitySpread = 10
+Part7.Name = "Ring"
+Part7.Parent = Tool0
+Part7.CFrame = CFrame.new(-14.5439882, 0.666507363, 16.2351627, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+Part7.Orientation = Vector3.new(-90, -90, 0)
+Part7.Position = Vector3.new(-14.543988227844238, 0.666507363319397, 16.23516273498535)
+Part7.Rotation = Vector3.new(-90, 0, -90)
+Part7.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
+Part7.Size = Vector3.new(0.4000000059604645, 0.4000000059604645, 0.10000000149011612)
+Part7.BottomSurface = Enum.SurfaceType.Smooth
+Part7.BrickColor = BrickColor.new("Really black")
+Part7.TopSurface = Enum.SurfaceType.Smooth
+Part7.brickColor = BrickColor.new("Really black")
+Part7.FormFactor = Enum.FormFactor.Plate
+Part7.formFactor = Enum.FormFactor.Plate
+SpecialMesh8.Parent = Part7
+SpecialMesh8.MeshId = "http://www.roblox.com/asset/?id=3270017"
+SpecialMesh8.Scale = Vector3.new(0.40000152587890625, 0.39999958872795105, 0.5473751425743103)
+SpecialMesh8.MeshType = Enum.MeshType.FileMesh
+Part9.Name = "Lettuce"
+Part9.Parent = Tool0
+Part9.CFrame = CFrame.new(-14.556736, 0.616507351, 16.2411747, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part9.Position = Vector3.new(-14.55673599243164, 0.616507351398468, 16.241174697875977)
+Part9.Color = Color3.new(0.152941, 0.27451, 0.176471)
+Part9.Size = Vector3.new(0.3381603956222534, 0.3381603956222534, 0.3381603956222534)
+Part9.BrickColor = BrickColor.new("Earth green")
+Part9.CanCollide = false
+Part9.brickColor = BrickColor.new("Earth green")
+SpecialMesh10.Parent = Part9
+SpecialMesh10.MeshId = "http://www.roblox.com/asset/?id=1290033"
+SpecialMesh10.Scale = Vector3.new(0.1690801978111267, 0.1690801978111267, 0.1690801978111267)
+SpecialMesh10.VertexColor = Vector3.new(1, 1, 0)
+SpecialMesh10.TextureId = "http://www.roblox.com/asset/?id=1290030"
+SpecialMesh10.MeshType = Enum.MeshType.FileMesh
+--Weld11.Name = "Bowl"
+Weld11.Parent = Tool0
+Weld11.C0 = CFrame.new(0, -0.366921067, 1.14440918e-05, 1, 0, 0, 0, -1, 0, 0, 0, -1)
+Weld11.Part0 = Part5
+Weld11.Part1 = Part1
+Weld11.part1 = Part1
+--Weld12.Name = "Ring"
+Weld12.Parent = Tool0
+Weld12.C0 = CFrame.new(0, -0.32222867, 0, 0, 1, 0, 0, 0, -1, -1, 0, 0)
+Weld12.Part0 = Part1
+Weld12.Part1 = Part7
+Weld12.part1 = Part7
+--Weld13.Name = "Lettuce"
+Weld13.Parent = Tool0
+Weld13.C0 = CFrame.new(-0.0127477646, -0.272228658, -0.00601196289, 1, 0, 0, 0, -1, 0, 0, 0, -1)
+Weld13.Part0 = Part1
+Weld13.Part1 = Part9
+Weld13.part1 = Part9
+--Weld14.Name = "Bowl"
+Weld14.Parent = Tool0
+Weld14.C0 = CFrame.new(-0.124833107, -0.529717445, 0, 0, 0.866025388, -0.49999997, 0, -0.49999997, -0.866025388, -1, 0, 0)
+Weld14.Part0 = Part3
+Weld14.Part1 = Part1
+Weld14.part1 = Part1
+
+NLS([[
+local Tool = script.Parent;
+
+enabled = true
+function onButton1Down(mouse)
+	if not enabled then
+		return
+	end
+
+	enabled = false
+	mouse.Icon = "rbxasset://textures\\GunWaitCursor.png"
+
+	wait(3)
+	mouse.Icon = "rbxasset://textures\\GunCursor.png"
+	enabled = true
+
+end
+
+function onEquippedLocal(mouse)
+
+	if mouse == nil then
+		print("Mouse not found")
+		return 
+	end
+
+	mouse.Icon = "rbxasset://textures\\GunCursor.png"
+	mouse.Button1Down:connect(function() onButton1Down(mouse) end)
+end
+
+
+Tool.Equipped:connect(onEquippedLocal)
+
+]],Tool0)
+
+NS([[
+local Tool = script.Parent
+local DefaultGrip = CFrame.new(0.285432339, -0.081741333, -0.48809433, -0.00770107191, -0.877220571, 0.480026126, 0.00386038516, 0.480010659, 0.877254367, -0.999962986, 0.00860888232, -0.000310187228)
+local DrinkGrip = CFrame.new(0.186039925, -0.771860123, -1.50139427, -0.00770043256, -0.877220809, 0.48002553, 0.00386134046, 0.480010062, 0.877254605, -0.999962986, 0.0086087808, -0.000309037045)
+
+enabled = true
+Name = nil
+plr = nil
+RecentName = nil
+
+
+
+
+function onActivated()
+	if not enabled then
+		return
+	end
+
+	enabled = false
+	Tool.Grip = DrinkGrip
+
+	wait(5)
+
+	Tool.Grip = DefaultGrip
+	local h = Tool.Parent:FindFirstChildOfClass("Humanoid")
+	Tool.Parent:FindFirstChild("BlowSmoke"):FindFirstChildOfClass("ParticleEmitter").Enabled = true
+	h:TakeDamage(15)
+
+
+	wait(3)
+	Tool.Parent:FindFirstChild("BlowSmoke"):FindFirstChildOfClass("ParticleEmitter").Enabled = false
+	enabled = true
+
+end
+
+Tool.Equipped:Connect(function()
+	plr = game:GetService("Players"):GetPlayerFromCharacter(Tool.Parent)
+	Name = plr.Name
+	RecentName = Name
+	for i,v in pairs(Tool:GetDescendants()) do
+		if v:IsA("Part") then
+			v.CanCollide = false
+		end
+	end
+
+	local Smoker = Instance.new("Part")
+	local WeldCigar = Instance.new("Weld")
+	local BlowEmitter = Instance.new("ParticleEmitter")
+	Smoker.Name = "BlowSmoke"
+	Smoker.Parent = game:GetService("Workspace"):FindFirstChild(RecentName)
+	Smoker.CFrame = CFrame.new(-20.0061798, 4.26597738, 19.9500828, 1, 0, 0, 0, -4.37113883e-08, 1, 0, -1, -4.37113883e-08)
+	Smoker.Orientation = Vector3.new(-90, 0, 0)
+	Smoker.Position = Vector3.new(-20.006179809570312, 4.265977382659912, 19.950082778930664)
+	Smoker.Rotation = Vector3.new(-90, 0, 0)
+	Smoker.Color = Color3.new(0.666667, 0.333333, 0)
+	Smoker.Transparency = 1
+	Smoker.Size = Vector3.new(0.18889617919921875, 0.20999999344348907, 0.20999999344348907)
+	Smoker.BottomSurface = Enum.SurfaceType.Smooth
+	Smoker.BrickColor = BrickColor.new("CGA brown")
+	Smoker.Material = Enum.Material.Neon
+	Smoker.TopSurface = Enum.SurfaceType.Smooth
+	Smoker.brickColor = BrickColor.new("CGA brown")
+	WeldCigar.Parent = Smoker
+	WeldCigar.C0 = CFrame.new(0, -0.234022617, -0.533670425, 1, 0, 0, 0, -4.37113883e-08, 1, 0, -1, -4.37113883e-08)
+	WeldCigar.Part0 = game:GetService("Workspace"):FindFirstChild(RecentName):FindFirstChild("Head")
+	WeldCigar.Part1 = Smoker
+	WeldCigar.part1 = Smoker
+	BlowEmitter.Name = "Emitter"
+	BlowEmitter.Enabled = false
+	BlowEmitter.Parent = Smoker
+	BlowEmitter.Speed = NumberRange.new(2.5, 2.5)
+	BlowEmitter.Rotation = NumberRange.new(100, 100)
+	BlowEmitter.Texture = "http://www.roblox.com/asset/?id=382199579"
+	BlowEmitter.Transparency = NumberSequence.new(0.8812500238418579,0.6899999976158142,0.7900000214576721,1)
+	BlowEmitter.Size = NumberSequence.new(0,0.9917360544204712)
+	BlowEmitter.Acceleration = Vector3.new(0, 0.07500000298023224, 0)
+	BlowEmitter.Lifetime = NumberRange.new(1.899999976158142, 1.899999976158142)
+	BlowEmitter.Rate = 90
+	BlowEmitter.RotSpeed = NumberRange.new(100, 100)
+	BlowEmitter.SpreadAngle = Vector2.new(10, 10)
+	BlowEmitter.VelocitySpread = 10
+end)
+
+Tool.Unequipped:Connect(function()
+	workspace:FindFirstChild(RecentName):FindFirstChild("BlowSmoke"):Destroy()
+	Name = nil
+	plr = nil
+	for i,v in pairs(Tool:GetDescendants()) do
+		if v:IsA("Part") then
+			v.CanCollide = true
+		end
+	end
+end)
+
+script.Parent.Activated:connect(onActivated)
+]],Tool0)
