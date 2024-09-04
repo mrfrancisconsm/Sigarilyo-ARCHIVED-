@@ -138,40 +138,6 @@ Weld14.Part0 = Part3
 Weld14.Part1 = Part1
 Weld14.part1 = Part1
 
-NLS([[
-local Tool = script.Parent;
-
-enabled = true
-function onButton1Down(mouse)
-	if not enabled then
-		return
-	end
-
-	enabled = false
-	mouse.Icon = "rbxasset://textures\\GunWaitCursor.png"
-
-	wait(3)
-	mouse.Icon = "rbxasset://textures\\GunCursor.png"
-	enabled = true
-
-end
-
-function onEquippedLocal(mouse)
-
-	if mouse == nil then
-		print("Mouse not found")
-		return 
-	end
-
-	mouse.Icon = "rbxasset://textures\\GunCursor.png"
-	mouse.Button1Down:connect(function() onButton1Down(mouse) end)
-end
-
-
-Tool.Equipped:connect(onEquippedLocal)
-
-]],Tool0)
-
 NS([[
 local Tool = script.Parent
 local DefaultGrip = CFrame.new(0.285432339, -0.081741333, -0.48809433, -0.00770107191, -0.877220571, 0.480026126, 0.00386038516, 0.480010659, 0.877254367, -0.999962986, 0.00860888232, -0.000310187228)
